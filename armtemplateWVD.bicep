@@ -61,6 +61,13 @@ resource imageTemplateName_resource 'Microsoft.VirtualMachineImages/imageTemplat
         restartTimeout: '5m'
       }
       {
+        type: 'PowerShell'
+        name: 'Install Notepad++'
+        runElevated: true
+        runAsSystem: true
+        scriptUri: 'https://raw.githubusercontent.com/mikedzikowski/ImageBuilderExample/main/install-notepad%2B%2B.ps1'
+      }
+      {
         type: 'WindowsUpdate'
         searchCriteria: 'IsInstalled=0'
         filters: [
@@ -73,7 +80,7 @@ resource imageTemplateName_resource 'Microsoft.VirtualMachineImages/imageTemplat
     distribute: [
       {
         type: 'SharedImage'
-        galleryImageId: '/subscriptions/f4972a61-1083-4904-a4e2-a790107320bf/resourceGroups/wvdImageDemoRg/providers/Microsoft.Compute/galleries/myaibsig01/images/win10wvd'
+        galleryImageId: '/subscriptions/f4972a61-1083-4904-a4e2-a790107320bf/resourceGroups/wvdImageDemoRg/providers/Microsoft.Compute/galleries/myaibsig01/images/win10avd'
         runOutputName: 'sigOutput'
         artifactTags: {
           source: 'wvd10'
