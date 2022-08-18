@@ -11,7 +11,7 @@ try {
     Expand-Archive -LiteralPath '.\Office365.zip' -Force
     Set-Location .\Office365
     Invoke-WebRequest -Uri 'https://<YOUR STORAGE ACCOUNT>.blob.core.usgovcloudapi.net/<YOUR CONTAINER>/configuration-Office365-x64.xml' -OutFile 'OfficeConfig.xml'
-    Start-Process -FilePath '.\setup.exe' -ArgumentList "/configure .\OfficeConfig.xml" -WorkingDirectory ".\"
+    Start-Process -FilePath '.\setup.exe' -ArgumentList "/configure .\OfficeConfig.xml" -WorkingDirectory ".\" -Wait
     write-host 'AIB Customization: Finished Install Office365+Project 2019+Visio2019'
 }
 catch {
