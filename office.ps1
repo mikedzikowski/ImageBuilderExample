@@ -7,13 +7,15 @@ try {
     {
         new-Item -ItemType Directory -Path c:\temp
     }
-    Invoke-WebRequest -Uri 'https://<your storage account>.blob.core.usgovcloudapi.net/<your container>/<your office xml file name>.xml' -OutFile 'OfficeConfig.xml'
-    Invoke-WebRequest -Uri 'https://<your storage account>.blob.core.usgovcloudapi.net/<your container>/setup.zip' -OutFile "Office365.zip"
+    Invoke-WebRequest -Uri 'https://<YOUR STORAGE ACCOUNT>.blob.core.usgovcloudapi.net/<YOUR CONTAINER>/setup.zip' -OutFile "Office365.zip"
     Expand-Archive -LiteralPath '.\Office365.zip' -Force
-    Start-Process -FilePath '.\Office365\setup.exe' -ArgumentList "/configure .\Office365\OfficeConfig.xml" -Wait -PassThru
+    Set-Location .\Office365
+    Invoke-WebRequest -Uri 'https://<YOUR STORAGE ACCOUNT>.blob.core.usgovcloudapi.net/<YOUR CONTAINER>/configuration-Office365-x64.xml' -OutFile 'OfficeConfig.xml'
+    Start-Process -FilePath '.\setup.exe' -ArgumentList "/configure .\OfficeConfig.xml" -WorkingDirectory ".\"
     write-host 'AIB Customization: Finished Install Office365+Project 2019+Visio2019'
 }
 catch {
     Write-Host $_
     Throw
 }
+
