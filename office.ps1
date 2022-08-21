@@ -1,21 +1,19 @@
-$ErrorActionPreference = 'STOP'
-
-try {
-
-    $TempPath = 'c:\temp'
-    If (!(Test-Path $TempPath))
-    {
-        new-Item -ItemType Directory -Path c:\temp
-    }
-    Invoke-WebRequest -Uri 'https://<YOUR STORAGE ACCOUNT>.blob.core.usgovcloudapi.net/<YOUR CONTAINER>/setup.zip' -OutFile "Office365.zip"
-    Expand-Archive -LiteralPath '.\Office365.zip' -Force
-    Set-Location .\Office365
-    Invoke-WebRequest -Uri 'https://<YOUR STORAGE ACCOUNT>.blob.core.usgovcloudapi.net/<YOUR CONTAINER>/<YOUR XML>.xml' -OutFile 'OfficeConfig.xml'
-    Start-Process -FilePath '.\setup.exe' -ArgumentList "/configure .\OfficeConfig.xml" -WorkingDirectory ".\" -Wait
-    write-host 'AIB Customization: Finished Install Office365+Project 2019+Visio2019'
-}
-catch {
-    Write-Host $_
-    Throw
-}
+$appName = 'office'
+$drive = 'C:\'
+Set-Location 'C:\'
+New-Item -Path $drive -Name $appName  -ItemType Directory -ErrorAction SilentlyContinue
+$LocalPath = $drive + '\' + $appName
+set-Location $LocalPath
+$setupExeOutputPath = $LocalPath + '\' +'Office365.zip'
+$xmlOutputPath = $LocalPath + '\'+ 'Office365\' + 'OfficeConfig.xml'
+$officeExe = $LocalPath + '\'+ 'Office365\' + 'setup.exe'
+write-host 'AIB Customization: Start Install Office365+Project 2019+Visio2019'
+Invoke-WebRequest -Uri 'https://<STORAGE ACCOUNT>.blob.core.usgovcloudapi.net/<CONTAINER>/setup.zip' -OutFile $setupExeOutputPath
+Expand-Archive -LiteralPath $setupExeOutputPath -Force
+$directory = Get-ChildItem
+Write-Host "DIRECTORY: $($directory.DirectoryName[0])"
+Write-Host "FILES: $($directory)"
+Invoke-WebRequest -Uri 'https://<STORAGE ACCOUNT>.blob.core.usgovcloudapi.net/<CONTAINER>/configuration-Office365-x64.xml' -OutFile $xmlOutputPath
+Start-Process -FilePath $officeExe -Args "/configure $xmlOutputPath" -PassThru -NoNewWindow -Wait -Verbose
+write-host 'AIB Customization: Finished Install Office365+Project 2019+Visio2019'
 
