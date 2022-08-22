@@ -3,7 +3,7 @@ $drive = 'C:\'
 Set-Location 'C:\'
 New-Item -Path $drive -Name $appName  -ItemType Directory -ErrorAction SilentlyContinue
 $LocalPath = $drive + '\' + $appName
-set-Location $LocalPath
+Set-Location $LocalPath
 $setupExeOutputPath = $LocalPath + '\' +'Office365.zip'
 $xmlOutputPath = $LocalPath + '\'+ 'Office365\' + 'OfficeConfig.xml'
 $officeExe = $LocalPath + '\'+ 'Office365\' + 'setup.exe'
