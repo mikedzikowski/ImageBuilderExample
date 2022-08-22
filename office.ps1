@@ -7,7 +7,7 @@ set-Location $LocalPath
 $setupExeOutputPath = $LocalPath + '\' +'Office365.zip'
 $xmlOutputPath = $LocalPath + '\'+ 'Office365\' + 'OfficeConfig.xml'
 $officeExe = $LocalPath + '\'+ 'Office365\' + 'setup.exe'
-write-host 'AIB Customization: Start Install Office365+Project 2019+Visio2019'
+Write-host 'AIB Customization: Start Install Office365+Project 2019+Visio2019'
 Invoke-WebRequest -Uri 'https://<STORAGE ACCOUNT>.blob.core.usgovcloudapi.net/<CONTAINER>/setup.zip' -OutFile $setupExeOutputPath
 Expand-Archive -LiteralPath $setupExeOutputPath -Force
 $directory = Get-ChildItem
